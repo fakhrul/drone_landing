@@ -12,7 +12,7 @@ import yaml
 from dt_apriltags import Detector
 from util import ImageUtil
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 tag_size = 0.055 #in meters
 
 frameWidth = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))

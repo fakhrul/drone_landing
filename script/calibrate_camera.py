@@ -139,8 +139,9 @@ if __name__ == '__main__':
     # Add port= if is necessary to use a different one
     # video = Video()
 
-    cap = cv2.VideoCapture(0)
-    
+    cap = cv2.VideoCapture(2)
+    foundCount = 0
+
     while True:
         # Wait for the next frame
         # if not video.frame_available():
@@ -154,7 +155,9 @@ if __name__ == '__main__':
         ret, corners = cv2.findChessboardCorners(gray, (7,6), None)
         # If found, add object points, image points (after refining them)
         if ret == True:
-            print("found")
+            foundCount = foundCount +1
+            print("found", foundCount)
+
             objpoints.append(objp)
             corners2 = cv2.cornerSubPix(gray,corners, (11,11), (-1,-1), criteria)
             imgpoints.append(corners)
@@ -164,6 +167,21 @@ if __name__ == '__main__':
             # cv.waitKey(500)
         else:
             print("not found")
+
+        if foundCount > 10:
+            ret, matrix, distortion, r_vecs, t_vecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None) 
+            # Displayig required output 
+            print(" Camera matrix:") 
+            print(matrix) 
+            
+            print("\n Distortion coefficient:") 
+            print(distortion) 
+            
+            print("\n Rotation Vectors:") 
+            print(r_vecs) 
+            
+            print("\n Translation Vectors:") 
+            print(t_vecs) 
 
         cv2.imshow('frame', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
