@@ -12,7 +12,7 @@ import yaml
 from dt_apriltags import Detector
 from util import ImageUtil
 
-cap = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(0)
 tag_size = 0.055 #in meters
 
 frameWidth = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -166,44 +166,44 @@ if __name__ == '__main__':
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGRA2GRAY)
         tags = at_detector.detect(gray, True, camera_params, tag_size)
-        for r in tags:
-            # extract the bounding box (x, y)-coordinates for the AprilTag
-            # and convert each of the (x, y)-coordinate pairs to integers
-            (ptA, ptB, ptC, ptD) = r.corners
-            ptB = (int(ptB[0]), int(ptB[1]))
-            ptC = (int(ptC[0]), int(ptC[1]))
-            ptD = (int(ptD[0]), int(ptD[1]))
-            ptA = (int(ptA[0]), int(ptA[1]))
-            # draw the bounding box of the AprilTag detection
-            cv2.line(frame, ptA, ptB, (0, 255, 0), 2)
-            cv2.line(frame, ptB, ptC, (0, 255, 0), 2)
-            cv2.line(frame, ptC, ptD, (0, 255, 0), 2)
-            cv2.line(frame, ptD, ptA, (0, 255, 0), 2)
-            # draw the center (x, y)-coordinates of the AprilTag
-            (cX, cY) = (int(r.center[0]), int(r.center[1]))
-            cv2.circle(frame, (cX, cY), 5, (0, 0, 255), -1)
-            # draw the tag family on the image
-            # tagFamily = r.tag_family.decode("utf-8")
-            # cv2.putText(frame, tagFamily, (ptA[0], ptA[1] - 15),
-            #     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
-            # print(tags)
-            # print("[INFO] tag family: {}".format(tagFamily))
+        # for r in tags:
+        #     # extract the bounding box (x, y)-coordinates for the AprilTag
+        #     # and convert each of the (x, y)-coordinate pairs to integers
+        #     (ptA, ptB, ptC, ptD) = r.corners
+        #     ptB = (int(ptB[0]), int(ptB[1]))
+        #     ptC = (int(ptC[0]), int(ptC[1]))
+        #     ptD = (int(ptD[0]), int(ptD[1]))
+        #     ptA = (int(ptA[0]), int(ptA[1]))
+        #     # draw the bounding box of the AprilTag detection
+        #     cv2.line(frame, ptA, ptB, (0, 255, 0), 2)
+        #     cv2.line(frame, ptB, ptC, (0, 255, 0), 2)
+        #     cv2.line(frame, ptC, ptD, (0, 255, 0), 2)
+        #     cv2.line(frame, ptD, ptA, (0, 255, 0), 2)
+        #     # draw the center (x, y)-coordinates of the AprilTag
+        #     (cX, cY) = (int(r.center[0]), int(r.center[1]))
+        #     cv2.circle(frame, (cX, cY), 5, (0, 0, 255), -1)
+        #     # draw the tag family on the image
+        #     # tagFamily = r.tag_family.decode("utf-8")
+        #     # cv2.putText(frame, tagFamily, (ptA[0], ptA[1] - 15),
+        #     #     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+        #     # print(tags)
+        #     # print("[INFO] tag family: {}".format(tagFamily))
 
-        pitch = 0
-        roll = 0
+        # pitch = 0
+        # roll = 0
 
-        if len(tags) > 0:
-            pitch, roll = imageUtil.getMatrix(frame, frameWidth, frameHeight, int(tags[0].center[0]), int(tags[0].center[1]))
-            length = imageUtil.getHorizontalLength(tags[0].corners)
-            print("length={}".format(length))
+        # if len(tags) > 0:
+        #     pitch, roll = imageUtil.getMatrix(frame, frameWidth, frameHeight, int(tags[0].center[0]), int(tags[0].center[1]))
+        #     length = imageUtil.getHorizontalLength(tags[0].corners)
+        #     print("length={}".format(length))
 
-            # displayPartition(frame, int(tags[0].center[0]), int(tags[0].center[1]))
-        else:
-            # displayPartition(frame, 0,0)
-            pitch, roll = imageUtil.getMatrix(frame, frameWidth, frameHeight, -1, -1)
+        #     # displayPartition(frame, int(tags[0].center[0]), int(tags[0].center[1]))
+        # else:
+        #     # displayPartition(frame, 0,0)
+        #     pitch, roll = imageUtil.getMatrix(frame, frameWidth, frameHeight, -1, -1)
         
-        print("pitch={}, roll={}".format(pitch, roll))
+        # print("pitch={}, roll={}".format(pitch, roll))
 
-        cv2.imshow('frame', frame)
+        cv2.imshow('frame', gray)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
