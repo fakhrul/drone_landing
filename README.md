@@ -18,6 +18,6 @@ sudo apt install sshguard (optional)
 
 ## Compile open cv
 
-[Reference 1](https://docs.opencv.org/master/d7/d9f/tutorial_linux_install.html)
-[Reference 2](https://www.philipzucker.com/installing-opencv-3-aruco-raspberry-pi-3/)
+1. [Reference 1](https://docs.opencv.org/master/d7/d9f/tutorial_linux_install.html)
+2. [Reference 2](https://www.philipzucker.com/installing-opencv-3-aruco-raspberry-pi-3/)
 
