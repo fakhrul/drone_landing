@@ -51,6 +51,10 @@ sudo ldconfig
 # Installing MAVSDK Python
 1. [Reference 1](https://github.com/mavlink/MAVSDK-Python)
 
+# Installing VS Code
+1. Need to manual download to home directory. Choose installer for debian ARM. Extension armhf.deb. [Download](https://code.visualstudio.com/#alt-downloads)
+2. Double click and install using the package installer. The package installer must run using sudo
+
 # Pixhawk connectivity
 1. check the serial port
 ````
