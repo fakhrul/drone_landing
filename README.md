@@ -54,6 +54,7 @@ sudo ldconfig
 # Installing VS Code
 1. Need to manual download to home directory. Choose installer for debian ARM. Extension armhf.deb. [Download](https://code.visualstudio.com/#alt-downloads)
 2. Double click and install using the package installer. The package installer must run using sudo
+3. [Other Reference](https://pimylifeup.com/raspberry-pi-visual-studio-code/)
 
 # Pixhawk connectivity
 1. check the serial port
