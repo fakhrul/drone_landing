@@ -20,10 +20,10 @@ import subprocess
 import time
 from collections import defaultdict
 from enum import Enum
-from pynput.keyboard import Listener, Key, KeyCode
+# from pynput.keyboard import Listener, Key, KeyCode
 from mavsdk.gimbal import GimbalMode
 
-from pynput.keyboard import Key, Controller
+# from pynput.keyboard import Key, Controller
 from util import ImageUtil
 
 pid = [0.5,0.5,0]
@@ -48,11 +48,11 @@ class Ctrl(Enum):
         ENABLE_DISABLE_PILOT
     ) = range(14)
 
-key_esc = Key.esc
-key_up = Key.up
-key_down = Key.down
-key_left =  Key.left
-key_right = Key.right
+key_esc = ''
+key_up = ''
+key_down = ''
+key_left =  ''
+key_right = ''
 
 QWERTY_CTRL_KEYS = {
     Ctrl.QUIT: key_esc,
@@ -82,14 +82,14 @@ AZERTY_CTRL_KEYS.update(
 )
 
 
-class KeyboardCtrl(Listener):
+class KeyboardCtrl():
 # class KeyboardCtrl():
     def __init__(self, ctrl_keys=None):
         self._ctrl_keys = self._get_ctrl_keys(ctrl_keys)
         self._key_pressed = defaultdict(lambda: False)
         self._last_action_ts = defaultdict(lambda: 0.0)
-        super().__init__(on_press=self._on_press, on_release=self._on_release)
-        self.start()
+        # super().__init__(on_press=self._on_press, on_release=self._on_release)
+        # self.start()
 
     def _on_press(self, key):
         if isinstance(key, KeyCode):
@@ -297,7 +297,7 @@ async def manual_controls():
             float(0), float(0), float(0.5), float(0)
         )
 
-    while not control.quit():
+    while True:
 
         ret, frame = cap.read()
         gray    = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #-- remember, OpenCV stores color images in Blue, Green, Red
@@ -492,7 +492,7 @@ cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 #-- Font for the text in the image
 font = cv2.FONT_HERSHEY_PLAIN
 
-keyboard = Controller()
+# keyboard = Controller()
 
 isEnableDroneControl = True
 isEnableDroneStream = False
