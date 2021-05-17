@@ -2,6 +2,9 @@
 
 This project is using a custom VTOL with PixHawk as a flight controller. Raspberry Pi 4 had been use as an On-Board processor to detect the specific tag by using vision computation. The control of the drone using MavSDK python.
 
+- [![VIDEO 1](https://img.youtube.com/vi/w8bV-NbThaw/0.jpg)](https://www.youtube.com/watch?v=w8bV-NbThaw)
+- [![VIDEO 2](https://img.youtube.com/vi/XmQxOzOqzXs/0.jpg)](https://www.youtube.com/watch?vXmQxOzOqzXs)
+
 [Video 1](https://www.youtube.com/watch?v=w8bV-NbThaw)
 [Video 2](https://www.youtube.com/watch?v=XmQxOzOqzXs)
 
