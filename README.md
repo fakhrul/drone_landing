@@ -5,9 +5,6 @@ This project is using a custom VTOL with PixHawk as a flight controller. Raspber
 - [![VIDEO 1](https://img.youtube.com/vi/w8bV-NbThaw/0.jpg)](https://www.youtube.com/watch?v=w8bV-NbThaw)
 - [![VIDEO 2](https://img.youtube.com/vi/XmQxOzOqzXs/0.jpg)](https://www.youtube.com/watch?vXmQxOzOqzXs)
 
-[Video 1](https://www.youtube.com/watch?v=w8bV-NbThaw)
-[Video 2](https://www.youtube.com/watch?v=XmQxOzOqzXs)
-
 # Installing Ubuntu Mate on Raspberry Pi 4 from windows
 
 1. Download the Ubuntu Image from https://ubuntu-mate.org/ports/raspberry-pi/
@@ -61,8 +58,9 @@ sudo ldconfig
 
 # Installing VS Code
 1. Need to manual download to home directory. Choose installer for debian ARM. Extension armhf.deb. [Download](https://code.visualstudio.com/#alt-downloads)
-2. Double click and install using the package installer. The package installer must run using sudo
-3. [Other Reference](https://pimylifeup.com/raspberry-pi-visual-studio-code/)
+![Select Deb ARM64](https://pimylifeup.com/wp-content/uploads/2018/09/Downloading-ARM-deb-package-for-Visual-Studio-Code.jpg)
+3. Double click and install using the package installer. The package installer must run using sudo
+4. [Other Reference](https://pimylifeup.com/raspberry-pi-visual-studio-code/)
 
 # Pixhawk connectivity
 1. check the serial port
