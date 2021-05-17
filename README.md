@@ -1,4 +1,9 @@
-# drone_landing
+# Autonomous Drone Landing on moving platform
+
+This project is using a custom VTOL with PixHawk as a flight controller. Raspberry Pi 4 had been use as an On-Board processor to detect the specific tag by using vision computation. The control of the drone using MavSDK python.
+
+[https://www.youtube.com/watch?v=w8bV-NbThaw](Video 1)
+[https://www.youtube.com/watch?v=XmQxOzOqzXs](Video 2)
 
 # Installing Ubuntu Mate on Raspberry Pi 4 from windows
 
