@@ -12,7 +12,7 @@ This project is using a custom VTOL with PixHawk as a flight controller. Raspber
 
 ## OS Configuration
 
-1. Set autologin
+1. Set [autologin](https://askubuntu.com/questions/1202230/auto-login-enable-on-turn-on-system) 
 2. Disable monitor off
 3. Set fix IP
 4. Set ssh
