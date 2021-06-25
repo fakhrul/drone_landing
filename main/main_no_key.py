@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from mavsdk import System
 import cv2
 import numpy as np
 
@@ -13,8 +14,8 @@ import yaml
 # from dt_apriltags import Detector
 
 import asyncio
+
 import random
-from mavsdk import System
 
 import subprocess
 import time
@@ -29,6 +30,7 @@ from util import ImageUtil
 pid = [0.5,0.5,0]
 prevErrPitch = 0
 prevErrRoll = 0
+
 
 class Ctrl(Enum):
     (
@@ -371,7 +373,9 @@ async def manual_controls():
             height, width, channels = frame.shape
             pitch, roll = imageUtil.getMatrix(frame,width, height, int(smallestTagCenter[0]), int(smallestTagCenter[1]))
 
-            tagWidth = np.linalg.norm(smallestTagCenter[1]-smallestTagCenter[0])
+            (topLeft, topRight, bottomRight, bottomLeft) = smallestTag
+            tagWidth = np.linalg.norm(topLeft[0]-topRight[0])
+            # tagWidth = np.linalg.norm(smallestTagCenter[1]-smallestTagCenter[0])
 
             cv2.putText(frame, "PITCH {}".format(pitch), (300, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
             cv2.putText(frame, "ROLL {}".format(roll), (300, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
@@ -384,12 +388,14 @@ async def manual_controls():
 
 
             if isEnableDroneControl:
-                if tagWidth < 100:
+                if tagWidth < 200:
                     throttle = 0.2
                     #throttle = 0.5
+                    print("INSTRUCTION MOVE")
                     await drone.manual_control.set_manual_control_input(pitch,roll, throttle, yaw)
                 else:
                     # throttle = 0.5
+                    print("INSTRUCTION LAND")
                     await drone.action.land()
 
 
