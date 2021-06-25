@@ -25,10 +25,51 @@ from mavsdk.gimbal import GimbalMode
 
 from pynput.keyboard import Key, Controller
 from util import ImageUtil
+import configparser
+import socket
+import threading
+import errno
+import base64
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+GROUND_STATION_IP = config['GroundStation']['IP']
+GROUND_STATION_STREAM_PORT = config['GroundStation']['PortStream']
+GROUND_STATION_MESSAGE_PORT = config['GroundStation']['PortMessage']
+DRONE_MESSAGE_PORT = config['Drone']['PortMessage']
+
+IS_ENABLE_DRONE_IN_MESSAGE = False
+BUFF_SIZE = 65536
+
+print(GROUND_STATION_IP)
 
 pid = [0.5,0.5,0]
 prevErrPitch = 0
 prevErrRoll = 0
+
+def listenInMessage():
+    while IS_ENABLE_DRONE_IN_MESSAGE:
+        try:
+            msg, client_addr = in_message_socket.recvfrom(BUFF_SIZE)
+        except socket.error as e:
+            err = e.args[0]
+            if err == errno.EAGAIN or err == errno.EWOULDBLOCK:
+                continue
+            else:
+                # a "real" error occurred
+                print('socket error', e)
+                break
+        else:
+            print(msg)
+
+out_stream_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+in_message_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+#in_message_socket.bind(("127.0.0.1", DRONE_MESSAGE_PORT))
+#in_message_thread = threading.Thread(target=listenInMessage, args=())
+#in_message_thread.start()
+
 
 class Ctrl(Enum):
     (
@@ -261,6 +302,14 @@ def rotationMatrixToEulerAngles(R):
 
     return np.array([x, y, z])
 
+def streamUdpVideo(frame):
+    try:
+        encoded,buffer = cv2.imencode('.jpg',frame,[cv2.IMWRITE_JPEG_QUALITY,80])
+        message = base64.b64encode(buffer)
+        out_stream_socket.sendto(message, (GROUND_STATION_IP, int(GROUND_STATION_STREAM_PORT)))
+    except socket.error as e:
+        print('socket error', e) 
+
 async def manual_controls():
     """Main function to connect to the drone and input manual controls"""
     print("Application Started. Live view is enable? {}".format(isEnableDroneStream))
@@ -398,7 +447,11 @@ async def manual_controls():
 
         if isEnableDroneStream:
             cv2.imshow('frame', frame)
+
+        streamUdpVideo(frame)
+
         if cv2.waitKey(1) & 0xFF == ord('q'):
+            out_stream_socket.close()
             break    
 
         if control.takeoff():
