@@ -500,7 +500,7 @@ font = cv2.FONT_HERSHEY_PLAIN
 
 # keyboard = Controller()
 
-isEnableDroneControl = True
+isEnableDroneControl = False
 isEnableDroneStream = False
 
 if __name__ == '__main__':

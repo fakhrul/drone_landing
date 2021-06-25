@@ -37,10 +37,11 @@ config.read('config.ini')
 GROUND_STATION_IP = config['GroundStation']['IP']
 GROUND_STATION_STREAM_PORT = config['GroundStation']['PortStream']
 GROUND_STATION_MESSAGE_PORT = config['GroundStation']['PortMessage']
+DRONE_IP = config['Drone']['IP']
 DRONE_MESSAGE_PORT = config['Drone']['PortMessage']
 
-IS_ENABLE_DRONE_IN_MESSAGE = False
-BUFF_SIZE = 65536
+IS_ENABLE_DRONE_IN_MESSAGE = True
+BUFF_SIZE = 65536*4
 
 print(GROUND_STATION_IP)
 
@@ -51,24 +52,18 @@ prevErrRoll = 0
 def listenInMessage():
     while IS_ENABLE_DRONE_IN_MESSAGE:
         try:
-            msg, client_addr = in_message_socket.recvfrom(BUFF_SIZE)
-        except socket.error as e:
-            err = e.args[0]
-            if err == errno.EAGAIN or err == errno.EWOULDBLOCK:
-                continue
-            else:
-                # a "real" error occurred
-                print('socket error', e)
-                break
-        else:
+            msg, client_addr = in_message_socket.recvfrom(1024)
             print(msg)
+        except:
+            print('listen error')
+            break
 
 out_stream_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 in_message_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-#in_message_socket.bind(("127.0.0.1", DRONE_MESSAGE_PORT))
-#in_message_thread = threading.Thread(target=listenInMessage, args=())
-#in_message_thread.start()
+in_message_socket.bind((DRONE_IP, int(DRONE_MESSAGE_PORT)))
+in_message_thread = threading.Thread(target=listenInMessage, args=())
+in_message_thread.start()
 
 
 class Ctrl(Enum):
@@ -304,6 +299,7 @@ def rotationMatrixToEulerAngles(R):
 
 def streamUdpVideo(frame):
     try:
+        frame = cv2.resize(frame, (320, 240))
         encoded,buffer = cv2.imencode('.jpg',frame,[cv2.IMWRITE_JPEG_QUALITY,80])
         message = base64.b64encode(buffer)
         out_stream_socket.sendto(message, (GROUND_STATION_IP, int(GROUND_STATION_STREAM_PORT)))
