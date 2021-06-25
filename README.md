@@ -21,7 +21,14 @@ sudo apt install openssh-server
 sudo apt install sshguard (optional)
 ````
 
-## Compile open cv
+# Install open cv
+## Option 1: Using pip
+````
+pip install opencv-python
+pip install opencv-contrib-python
+````
+
+## Option 2: Compile open cv
 
 1. [Reference 2](https://www.philipzucker.com/installing-opencv-3-aruco-raspberry-pi-3/)
 ````
