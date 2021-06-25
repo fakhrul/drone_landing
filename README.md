@@ -54,6 +54,9 @@ sudo ldconfig
 2. [Reference 1](https://docs.opencv.org/master/d7/d9f/tutorial_linux_install.html)
 
 # Installing MAVSDK Python
+````
+pip install mavsdk
+````
 1. [Reference 1](https://github.com/mavlink/MAVSDK-Python)
 
 # Installing VS Code
